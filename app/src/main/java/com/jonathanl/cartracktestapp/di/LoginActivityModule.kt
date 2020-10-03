@@ -1,6 +1,6 @@
 package com.jonathanl.cartracktestapp.di
 
-import com.jonathanl.cartracktestapp.data.LoginRepository
+import com.jonathanl.cartracktestapp.data.Repository
 import com.jonathanl.cartracktestapp.ui.login.LoginViewModel
 import dagger.Module
 import dagger.Provides
@@ -12,7 +12,7 @@ import dagger.hilt.android.components.ActivityComponent
 object LoginActivityModule {
 
     @Provides
-    fun provideLoginViewModel(loginRepository: LoginRepository): LoginViewModel {
+    fun provideLoginViewModel(loginRepository: Repository): LoginViewModel {
         return LoginViewModel(loginRepository)
     }
 

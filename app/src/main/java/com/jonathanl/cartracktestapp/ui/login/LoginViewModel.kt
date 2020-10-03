@@ -4,27 +4,53 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import android.util.Patterns
-import com.jonathanl.cartracktestapp.data.LoginRepository
-import com.jonathanl.cartracktestapp.data.Result
 
 import com.jonathanl.cartracktestapp.R
+import com.jonathanl.cartracktestapp.data.Repository
+import com.jonathanl.cartracktestapp.data.model.LoggedInUser
+import com.jonathanl.cartracktestapp.data.model.LoginResult
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.channels.ReceiveChannel
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.receiveAsFlow
+import kotlinx.coroutines.launch
 
-class LoginViewModel(private val loginRepository: LoginRepository) : ViewModel() {
+class LoginViewModel(private val repository: Repository) : ViewModel() {
+
+    private val databaseJob: Job = Job()
+    private val coRoutineScope = CoroutineScope(Dispatchers.IO + databaseJob)
 
     private val _loginForm = MutableLiveData<LoginFormState>()
     val loginFormState: LiveData<LoginFormState> = _loginForm
 
-    private val _loginResult = MutableLiveData<LoginResult>()
-    val loginResult: LiveData<LoginResult> = _loginResult
+    private val _loginStatus = MutableLiveData<LoginResult>()
+    val loginStatus: LiveData<LoginResult> = _loginStatus
+
+    init {
+        coRoutineScope.launch {
+            observeLoginStatus()
+        }
+    }
+
+    private suspend fun observeLoginStatus() {
+        val subscription = repository.loggedInStatus.openSubscription()
+        subscription.receiveAsFlow().collect {
+            _loginStatus.postValue(it)
+        }
+    }
 
     fun login(username: String, password: String) {
-        // can be launched in a separate asynchronous job
-        val result = loginRepository.login(username, password)
+        coRoutineScope.launch {
+            repository.loginUser(username, password)
+        }
+    }
 
-        if (result is Result.Success) {
-            _loginResult.value = LoginResult(success = LoggedInUserView(displayName = result.data.displayName))
-        } else {
-            _loginResult.value = LoginResult(error = R.string.login_failed)
+    fun registerNewUser(username: String, password: String, country: String) {
+        val newUser = LoggedInUser(username, password, country)
+        coRoutineScope.launch {
+            repository.insertUser(newUser)
         }
     }
 
@@ -49,6 +75,6 @@ class LoginViewModel(private val loginRepository: LoginRepository) : ViewModel()
 
     // A placeholder password validation check
     private fun isPasswordValid(password: String): Boolean {
-        return password.length > 5
+        return password.length > 7
     }
 }

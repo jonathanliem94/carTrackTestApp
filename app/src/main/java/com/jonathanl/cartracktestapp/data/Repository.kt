@@ -3,7 +3,6 @@ package com.jonathanl.cartracktestapp.data
 import com.jonathanl.cartracktestapp.data.model.LoggedInUser
 import com.jonathanl.cartracktestapp.data.model.LoginResult
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
-import kotlinx.coroutines.flow.StateFlow
 
 /**
  * Class that requests authentication and user information from the remote data source and
@@ -12,7 +11,8 @@ import kotlinx.coroutines.flow.StateFlow
 
 class Repository(private val loginDAO: LoginDAO) {
 
-    val loggedInStatus = ConflatedBroadcastChannel<LoginResult>(LoginResult.Failure("Initial value"))
+    val loggedInStatus = ConflatedBroadcastChannel<LoginResult>()
+    val registerStatus = ConflatedBroadcastChannel<Boolean>()
 
     suspend fun logoutUser() {
         loggedInStatus.send(LoginResult.Failure("Logged out"))
@@ -27,6 +27,8 @@ class Repository(private val loginDAO: LoginDAO) {
     }
 
     suspend fun insertUser(user: LoggedInUser) {
-        loginDAO.insert(user)
+        val result = loginDAO.insert(user)
+        if (result.isNotEmpty()) registerStatus.send(true)
+        else registerStatus.send(false)
     }
 }

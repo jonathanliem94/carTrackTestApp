@@ -4,7 +4,6 @@ import com.jonathanl.cartracktestapp.data.model.LoggedInUser
 import com.jonathanl.cartracktestapp.data.model.LoginResult
 import io.mockk.*
 import kotlinx.coroutines.test.runBlockingTest
-import org.junit.After
 import org.junit.Before
 import org.junit.Test
 
@@ -42,9 +41,16 @@ class RepositoryTest {
     }
 
     @Test
-    fun loginUser() = runBlockingTest {
-        coEvery { mockDAO.insert(any()) } returns Unit
+    fun insertUserSuccess() = runBlockingTest {
+        coEvery { mockDAO.insert(any()) } returns listOf(1L)
         repoUnderTest.insertUser(testUser1)
-        coVerify { mockDAO.insert(testUser1) }
+        assertEquals(repoUnderTest.registerStatus.value, true)
+    }
+
+    @Test
+    fun insertUserFailure() = runBlockingTest {
+        coEvery { mockDAO.insert(any()) } returns listOf()
+        repoUnderTest.insertUser(testUser1)
+        assertEquals(repoUnderTest.registerStatus.value, false)
     }
 }

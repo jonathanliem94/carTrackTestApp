@@ -5,9 +5,9 @@ import android.os.Bundle
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.ArrayAdapter
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
+import com.google.android.material.snackbar.Snackbar
 import com.jonathanl.cartracktestapp.data.model.LoginResult
 import com.jonathanl.cartracktestapp.databinding.ActivityLoginBinding
 import com.jonathanl.cartracktestapp.utils.afterTextChanged
@@ -60,6 +60,11 @@ class LoginActivity : AppCompatActivity() {
                     }
                 }
             })
+
+            loginViewModel.registerStatus.observe(this@LoginActivity, {
+                if (it) showRegisterSuccess()
+                else showRegisterFailed()
+            })
         }
     }
 
@@ -91,6 +96,9 @@ class LoginActivity : AppCompatActivity() {
                 login.setOnClickListener {
                     startLogin()
                 }
+                register.setOnClickListener {
+                    startRegister()
+                }
             }
         }
     }
@@ -120,11 +128,25 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
+    private fun startRegister() {
+        binding.run {
+            loginViewModel.registerNewUser(username.text.toString(), password.text.toString(), countrySpinner.selectedItem.toString())
+        }
+    }
+
     private fun showLoginSuccess(username: String) {
-        Toast.makeText(applicationContext, "Logged in as $username", Toast.LENGTH_LONG).show()
+        Snackbar.make(binding.root, "Logged in as $username", Snackbar.LENGTH_LONG).show()
     }
 
     private fun showLoginFailed(message: String) {
-        Toast.makeText(applicationContext, message, Toast.LENGTH_SHORT).show()
+        Snackbar.make(binding.root, message, Snackbar.LENGTH_SHORT).show()
+    }
+
+    private fun showRegisterSuccess() {
+        Snackbar.make(binding.root, "Register success", Snackbar.LENGTH_LONG).show()
+    }
+
+    private fun showRegisterFailed() {
+        Snackbar.make(binding.root, "Register failed", Snackbar.LENGTH_SHORT).show()
     }
 }

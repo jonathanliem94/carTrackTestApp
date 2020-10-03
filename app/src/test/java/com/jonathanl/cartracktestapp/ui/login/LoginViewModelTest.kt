@@ -11,7 +11,6 @@ import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.mockk
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
-import kotlinx.coroutines.flow.StateFlow
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Rule
@@ -23,6 +22,7 @@ class LoginViewModelTest {
     private lateinit var viewModelUnderTest: LoginViewModel
     private val mockRepo = mockk<Repository>()
     private val mockLoggedInStatus = mockk<ConflatedBroadcastChannel<LoginResult>>(relaxed = true)
+    private val mockRegisterStatus = mockk<ConflatedBroadcastChannel<Boolean>>(relaxed = true)
     private val mockObserver = mockk<Observer<LoginFormState>>()
     private val testName = "francois"
     private val testPw = "klsjdiur"
@@ -35,6 +35,7 @@ class LoginViewModelTest {
     @Before
     fun setUp() {
         every { mockRepo.loggedInStatus } returns mockLoggedInStatus
+        every { mockRepo.registerStatus } returns mockRegisterStatus
         every { mockObserver.onChanged(any()) } returns Unit
         viewModelUnderTest = LoginViewModel(mockRepo)
         viewModelUnderTest.loginFormState.observeForever(mockObserver)

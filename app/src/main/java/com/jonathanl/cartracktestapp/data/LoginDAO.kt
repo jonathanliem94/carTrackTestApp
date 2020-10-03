@@ -11,7 +11,7 @@ interface LoginDAO {
     suspend fun findUser(usernameQuery: String, passwordQuery: String): LoggedInUser?
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(vararg users: LoggedInUser)
+    suspend fun insert(vararg users: LoggedInUser): List<Long>
 
     @Delete
     suspend fun delete(user: LoggedInUser)

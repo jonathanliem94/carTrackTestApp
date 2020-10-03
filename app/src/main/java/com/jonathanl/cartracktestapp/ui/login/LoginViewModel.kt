@@ -12,7 +12,6 @@ import com.jonathanl.cartracktestapp.data.model.LoginResult
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.channels.ReceiveChannel
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
@@ -28,9 +27,13 @@ class LoginViewModel(private val repository: Repository) : ViewModel() {
     private val _loginStatus = MutableLiveData<LoginResult>()
     val loginStatus: LiveData<LoginResult> = _loginStatus
 
+    private val _registerStatus = MutableLiveData<Boolean>()
+    val registerStatus: LiveData<Boolean> = _registerStatus
+
     init {
         coRoutineScope.launch {
-            observeLoginStatus()
+            launch { observeLoginStatus() }
+            launch { observeRegisterStatus() }
         }
     }
 
@@ -38,6 +41,13 @@ class LoginViewModel(private val repository: Repository) : ViewModel() {
         val subscription = repository.loggedInStatus.openSubscription()
         subscription.receiveAsFlow().collect {
             _loginStatus.postValue(it)
+        }
+    }
+
+    private suspend fun observeRegisterStatus() {
+        val subscription = repository.registerStatus.openSubscription()
+        subscription.receiveAsFlow().collect {
+            _registerStatus.postValue(it)
         }
     }
 

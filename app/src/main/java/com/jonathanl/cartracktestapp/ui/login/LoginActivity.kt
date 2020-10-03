@@ -1,6 +1,7 @@
 package com.jonathanl.cartracktestapp.ui.login
 
 import android.R
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.view.inputmethod.EditorInfo
@@ -10,6 +11,7 @@ import androidx.lifecycle.Observer
 import com.google.android.material.snackbar.Snackbar
 import com.jonathanl.cartracktestapp.data.model.LoginResult
 import com.jonathanl.cartracktestapp.databinding.ActivityLoginBinding
+import com.jonathanl.cartracktestapp.ui.userdisplay.UserDisplayActivity
 import com.jonathanl.cartracktestapp.utils.afterTextChanged
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.*
@@ -136,6 +138,8 @@ class LoginActivity : AppCompatActivity() {
 
     private fun showLoginSuccess(username: String) {
         Snackbar.make(binding.root, "Logged in as $username", Snackbar.LENGTH_LONG).show()
+        val intent = Intent(this, UserDisplayActivity::class.java)
+        startActivity(intent)
     }
 
     private fun showLoginFailed(message: String) {

@@ -1,6 +1,7 @@
 package com.jonathanl.cartracktestapp.di
 
-import com.jonathanl.cartracktestapp.data.Repository
+import com.jonathanl.cartracktestapp.data.NetworkRepository
+import com.jonathanl.cartracktestapp.data.NetworkService
 import com.jonathanl.cartracktestapp.ui.userdisplay.UserDisplayViewModel
 import dagger.Module
 import dagger.Provides
@@ -12,8 +13,8 @@ import dagger.hilt.android.components.ActivityComponent
 object UserDisplayActivityModule {
 
     @Provides
-    fun provideUserDisplayViewModel(repository: Repository): UserDisplayViewModel {
-        return UserDisplayViewModel(repository)
+    fun provideUserDisplayViewModel(networkRepository: NetworkRepository): UserDisplayViewModel {
+        return UserDisplayViewModel(networkRepository)
     }
 
 

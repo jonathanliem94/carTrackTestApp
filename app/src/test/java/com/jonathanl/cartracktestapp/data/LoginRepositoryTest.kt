@@ -9,15 +9,15 @@ import org.junit.Test
 
 import org.junit.Assert.*
 
-class RepositoryTest {
+class LoginRepositoryTest {
 
-    private lateinit var repoUnderTest: Repository
+    private lateinit var repoUnderTest: LoginRepository
     private val mockDAO = mockk<LoginDAO>()
     private val testUser1 = LoggedInUser("francois", "klsjdiur", "France")
 
     @Before
     fun setUp() {
-        repoUnderTest = Repository(mockDAO)
+        repoUnderTest = LoginRepository(mockDAO)
     }
 
     @Test

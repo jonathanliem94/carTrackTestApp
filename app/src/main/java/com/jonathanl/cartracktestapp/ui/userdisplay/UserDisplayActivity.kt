@@ -18,6 +18,7 @@ class UserDisplayActivity: AppCompatActivity() {
         setContentView(binding.root)
         subscribeToViewModel()
         setListeners()
+        fetchData()
     }
 
     private fun subscribeToViewModel() {
@@ -26,6 +27,10 @@ class UserDisplayActivity: AppCompatActivity() {
 
     private fun setListeners() {
 
+    }
+
+    private fun fetchData() {
+        viewModel.fetchData()
     }
 
 

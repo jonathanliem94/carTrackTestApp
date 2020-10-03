@@ -9,7 +9,7 @@ import kotlinx.coroutines.channels.ConflatedBroadcastChannel
  * maintains an in-memory cache of login status and user credentials information.
  */
 
-class Repository(private val loginDAO: LoginDAO) {
+class LoginRepository(private val loginDAO: LoginDAO) {
 
     val loggedInStatus = ConflatedBroadcastChannel<LoginResult>()
     val registerStatus = ConflatedBroadcastChannel<Boolean>()

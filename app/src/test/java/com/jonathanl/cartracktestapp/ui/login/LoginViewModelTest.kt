@@ -3,7 +3,7 @@ package com.jonathanl.cartracktestapp.ui.login
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
 import com.jonathanl.cartracktestapp.R
-import com.jonathanl.cartracktestapp.data.Repository
+import com.jonathanl.cartracktestapp.data.LoginRepository
 import com.jonathanl.cartracktestapp.data.model.LoggedInUser
 import com.jonathanl.cartracktestapp.data.model.LoginResult
 import io.mockk.coEvery
@@ -20,7 +20,7 @@ import org.junit.Test
 class LoginViewModelTest {
 
     private lateinit var viewModelUnderTest: LoginViewModel
-    private val mockRepo = mockk<Repository>()
+    private val mockRepo = mockk<LoginRepository>()
     private val mockLoggedInStatus = mockk<ConflatedBroadcastChannel<LoginResult>>(relaxed = true)
     private val mockRegisterStatus = mockk<ConflatedBroadcastChannel<Boolean>>(relaxed = true)
     private val mockObserver = mockk<Observer<LoginFormState>>()

@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModel
 import android.util.Patterns
 
 import com.jonathanl.cartracktestapp.R
-import com.jonathanl.cartracktestapp.data.Repository
+import com.jonathanl.cartracktestapp.data.LoginRepository
 import com.jonathanl.cartracktestapp.data.model.LoggedInUser
 import com.jonathanl.cartracktestapp.data.model.LoginResult
 import kotlinx.coroutines.CoroutineScope
@@ -16,7 +16,7 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 
-class LoginViewModel(private val repository: Repository) : ViewModel() {
+class LoginViewModel(private val loginRepository: LoginRepository) : ViewModel() {
 
     private val databaseJob: Job = Job()
     private val coRoutineScope = CoroutineScope(Dispatchers.IO + databaseJob)
@@ -38,14 +38,14 @@ class LoginViewModel(private val repository: Repository) : ViewModel() {
     }
 
     private suspend fun observeLoginStatus() {
-        val subscription = repository.loggedInStatus.openSubscription()
+        val subscription = loginRepository.loggedInStatus.openSubscription()
         subscription.receiveAsFlow().collect {
             _loginStatus.postValue(it)
         }
     }
 
     private suspend fun observeRegisterStatus() {
-        val subscription = repository.registerStatus.openSubscription()
+        val subscription = loginRepository.registerStatus.openSubscription()
         subscription.receiveAsFlow().collect {
             _registerStatus.postValue(it)
         }
@@ -53,14 +53,14 @@ class LoginViewModel(private val repository: Repository) : ViewModel() {
 
     fun login(username: String, password: String) {
         coRoutineScope.launch {
-            repository.loginUser(username, password)
+            loginRepository.loginUser(username, password)
         }
     }
 
     fun registerNewUser(username: String, password: String, country: String) {
         val newUser = LoggedInUser(username, password, country)
         coRoutineScope.launch {
-            repository.insertUser(newUser)
+            loginRepository.insertUser(newUser)
         }
     }
 

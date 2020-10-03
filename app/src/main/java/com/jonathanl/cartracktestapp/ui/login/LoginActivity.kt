@@ -1,17 +1,21 @@
 package com.jonathanl.cartracktestapp.ui.login
 
-import androidx.lifecycle.Observer
+import android.R
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
 import android.view.View
 import android.view.inputmethod.EditorInfo
+import android.widget.ArrayAdapter
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Observer
 import com.jonathanl.cartracktestapp.data.model.LoginResult
-
 import com.jonathanl.cartracktestapp.databinding.ActivityLoginBinding
 import com.jonathanl.cartracktestapp.utils.afterTextChanged
 import dagger.hilt.android.AndroidEntryPoint
+import java.util.*
 import javax.inject.Inject
+import kotlin.collections.ArrayList
+
 
 @AndroidEntryPoint
 class LoginActivity : AppCompatActivity() {
@@ -23,6 +27,7 @@ class LoginActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        setUpCountrySpinner()
         subscribeToViewModel()
         setListeners()
     }
@@ -34,6 +39,7 @@ class LoginActivity : AppCompatActivity() {
 
                 // disable login button unless both username / password is valid
                 login.isEnabled = loginState.isDataValid
+                register.isEnabled = loginState.isDataValid
 
                 if (loginState.usernameError != null) {
                     username.error = getString(loginState.usernameError)
@@ -87,6 +93,24 @@ class LoginActivity : AppCompatActivity() {
                 }
             }
         }
+    }
+
+    private fun setUpCountrySpinner() {
+        val locales: Array<Locale> = Locale.getAvailableLocales()
+        val countries = ArrayList<String>()
+        for (locale in locales) {
+            val country: String = locale.displayCountry
+            if (country.trim { it <= ' ' }.isNotEmpty() && !countries.contains(country)) {
+                countries.add(country)
+            }
+        }
+        countries.sort()
+        val countryAdapter = ArrayAdapter(
+            this,
+            R.layout.simple_spinner_item, countries
+        )
+        countryAdapter.setDropDownViewResource(R.layout.simple_spinner_dropdown_item)
+        binding.countrySpinner.adapter = countryAdapter
     }
 
     private fun startLogin() {

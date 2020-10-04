@@ -38,6 +38,30 @@ class UserDisplayViewAdapter: RecyclerView.Adapter<UserDisplayViewAdapter.ViewHo
                 email_text.text = resources.getString(R.string.display_email, userdata.email)
                 phone_text.text = resources.getString(R.string.display_phone, userdata.phoneNumber)
                 website_text.text = resources.getString(R.string.display_website, userdata.website)
+                company_name_text.text = resources.getString(
+                    R.string.display_company_name,
+                    userdata.companyData?.companyName
+                )
+                company_phrase_text.text = resources.getString(
+                    R.string.display_company_phrase,
+                    userdata.companyData?.companyCatchPhrase
+                )
+                company_bs_text.text = resources.getString(
+                    R.string.display_company_bs,
+                    userdata.companyData?.companyBusiness
+                )
+                address_full_text.text = resources.getString(
+                    R.string.display_address_full,
+                    userdata.addressData?.street,
+                    userdata.addressData?.suite,
+                    userdata.addressData?.city,
+                    userdata.addressData?.zipCode
+                )
+                address_lat_lng_text.text = resources.getString(
+                    R.string.display_address_lat_lng,
+                    userdata.addressData?.locationData?.lat,
+                    userdata.addressData?.locationData?.lng,
+                )
             }
         }
     }

@@ -11,9 +11,18 @@
     <string name="invalid_password">Password must be >8 characters</string>
     <string name="login_failed">"Login failed"</string>
     <!-- Strings related to user display list -->
+    <string name="display_personal_particulars">Personal Particulars</string>
     <string name="display_name">Name: %1$s</string>
     <string name="display_username">User: %1$s</string>
     <string name="display_email">Email: %1$s</string>
     <string name="display_phone">Phone: %1$s</string>
     <string name="display_website">Website: %1$s</string>
+    <string name="display_company_desc">Works at:</string>
+    <string name="display_company_name">Name: %1$s</string>
+    <string name="display_company_phrase">Phrase: %1$s</string>
+    <string name="display_company_bs">B.S.: %1$s</string>
+    <string name="display_address_desc">Lives at:</string>
+    <string name="display_address_full">%1$s, %2$s, %3$s, %4$s</string>
+    <string name="display_address_lat_lng">Lat: %1$s, Long: %2$s</string>
+
 </resources>

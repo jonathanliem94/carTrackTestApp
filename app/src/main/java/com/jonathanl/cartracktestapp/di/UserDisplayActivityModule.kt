@@ -2,6 +2,7 @@ package com.jonathanl.cartracktestapp.di
 
 import com.jonathanl.cartracktestapp.data.NetworkRepository
 import com.jonathanl.cartracktestapp.data.NetworkService
+import com.jonathanl.cartracktestapp.ui.userdisplay.UserDisplayViewAdapter
 import com.jonathanl.cartracktestapp.ui.userdisplay.UserDisplayViewModel
 import dagger.Module
 import dagger.Provides
@@ -17,5 +18,9 @@ object UserDisplayActivityModule {
         return UserDisplayViewModel(networkRepository)
     }
 
+    @Provides
+    fun provideUserDisplayViewAdapter(): UserDisplayViewAdapter {
+        return UserDisplayViewAdapter()
+    }
 
 }

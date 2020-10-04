@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:strokeWidth="1dp"
+    app:strokeColor="@color/black">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/name_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="@string/display_name"
+            android:layout_margin="4dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/username_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="@string/display_username"
+            android:layout_marginBottom="4dp"
+            app:layout_constraintTop_toBottomOf="@+id/name_text"
+            app:layout_constraintStart_toStartOf="@id/name_text"/>
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/email_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="@string/display_email"
+            android:layout_marginBottom="4dp"
+            app:layout_constraintTop_toBottomOf="@+id/username_text"
+            app:layout_constraintStart_toStartOf="@id/username_text"/>
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/phone_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="@string/display_phone"
+            android:layout_marginBottom="4dp"
+            app:layout_constraintTop_toBottomOf="@+id/email_text"
+            app:layout_constraintStart_toStartOf="@id/email_text"/>
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/website_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="@string/display_website"
+            android:layout_marginBottom="4dp"
+            app:layout_constraintTop_toBottomOf="@+id/phone_text"
+            app:layout_constraintStart_toStartOf="@id/phone_text"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</com.google.android.material.card.MaterialCardView>

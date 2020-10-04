@@ -2,6 +2,7 @@ package com.jonathanl.cartracktestapp.ui.login
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
+import com.jonathanl.cartracktestapp.MainCoroutineScopeRule
 import com.jonathanl.cartracktestapp.R
 import com.jonathanl.cartracktestapp.data.LoginRepository
 import com.jonathanl.cartracktestapp.data.model.LoggedInUser
@@ -11,6 +12,7 @@ import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.mockk
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
+import kotlinx.coroutines.test.runBlockingTest
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Rule
@@ -32,6 +34,9 @@ class LoginViewModelTest {
     @JvmField
     val instantExecutorRule = InstantTaskExecutorRule()
 
+    @get:Rule
+    val coroutineScope = MainCoroutineScopeRule()
+
     @Before
     fun setUp() {
         every { mockRepo.loggedInStatus } returns mockLoggedInStatus
@@ -42,14 +47,14 @@ class LoginViewModelTest {
     }
 
     @Test
-    fun login() {
+    fun login() = coroutineScope.runBlockingTest {
         coEvery { mockRepo.loginUser(any(), any()) } returns Unit
         viewModelUnderTest.login(testName, testPw)
         coVerify { mockRepo.loginUser(testName, testPw) }
     }
 
     @Test
-    fun registerNewUser() {
+    fun registerNewUser() = coroutineScope.runBlockingTest {
         coEvery { mockRepo.insertUser(any()) } returns Unit
         viewModelUnderTest.registerNewUser(testName, testPw, testCountry)
         coVerify {

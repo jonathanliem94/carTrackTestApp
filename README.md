@@ -6,3 +6,7 @@
 - Kotlin Coroutines for Asynchronous calls and Reactive programming
 - Room for in-app database
 - Leak Canary for potential memory leaks
+
+## Some screenshots
+<a href="url"><img src="https://raw.githubusercontent.com/jonathanliem94/carTrackTestApp/master/docs/Screenshot_1601788379.png" align="left" height="960" width="540" ></a>
+<a href="url"><img src="https://raw.githubusercontent.com/jonathanliem94/carTrackTestApp/master/docs/Screenshot_1601788395.png" align="left" height="960" width="540" ></a>

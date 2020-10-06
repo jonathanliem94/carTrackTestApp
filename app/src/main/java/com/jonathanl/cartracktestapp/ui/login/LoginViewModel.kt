@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import android.util.Patterns
+import androidx.lifecycle.liveData
 
 import com.jonathanl.cartracktestapp.R
 import com.jonathanl.cartracktestapp.data.LoginRepository
@@ -24,30 +25,17 @@ class LoginViewModel(private val loginRepository: LoginRepository) : ViewModel()
     private val _loginForm = MutableLiveData<LoginFormState>()
     val loginFormState: LiveData<LoginFormState> = _loginForm
 
-    private val _loginStatus = MutableLiveData<LoginResult>()
-    val loginStatus: LiveData<LoginResult> = _loginStatus
-
-    private val _registerStatus = MutableLiveData<Boolean>()
-    val registerStatus: LiveData<Boolean> = _registerStatus
-
-    init {
-        coRoutineScope.launch {
-            launch { observeLoginStatus() }
-            launch { observeRegisterStatus() }
-        }
-    }
-
-    private suspend fun observeLoginStatus() {
+    val loginStatus: LiveData<LoginResult> = liveData {
         val subscription = loginRepository.loggedInStatus.openSubscription()
         subscription.receiveAsFlow().collect {
-            _loginStatus.postValue(it)
+            emit(it)
         }
     }
 
-    private suspend fun observeRegisterStatus() {
+    val registerStatus: LiveData<Boolean> = liveData {
         val subscription = loginRepository.registerStatus.openSubscription()
         subscription.receiveAsFlow().collect {
-            _registerStatus.postValue(it)
+           emit(it)
         }
     }
 

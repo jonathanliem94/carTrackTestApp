@@ -1,7 +1,7 @@
 package com.jonathanl.cartracktestapp.ui.userdisplay
 
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.liveData
 import com.jonathanl.cartracktestapp.data.NetworkRepository
 import com.jonathanl.cartracktestapp.data.model.WebsiteUser
 import kotlinx.coroutines.CoroutineScope
@@ -15,18 +15,9 @@ class UserDisplayViewModel(private val networkRepository: NetworkRepository) {
     private val networkJob: Job = Job()
     private val coRoutineScope = CoroutineScope(Dispatchers.IO + networkJob)
 
-    private val _userDataList = MutableLiveData<List<WebsiteUser>>()
-    val userDataList: LiveData<List<WebsiteUser>> = _userDataList
-
-    init {
-        coRoutineScope.launch {
-            subscribeToWebsiteData()
-        }
-    }
-
-    private suspend fun subscribeToWebsiteData() {
+    val userDataList: LiveData<List<WebsiteUser>> = liveData {
         networkRepository.websiteData.collect{
-            _userDataList.postValue(it)
+            emit(it)
         }
     }
 
